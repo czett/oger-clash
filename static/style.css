@@ -63,8 +63,16 @@ body, html{
     font-size: 1.5rem;
 }
 
+.logreg-form form button:disabled{
+    filter: saturate(0);
+}
+
 .logreg-form form button:hover{
     filter: brightness(1.1);
+}
+
+.logreg-form form button:hover:disabled{
+    filter: saturate(0);
 }
 
 .logreg-form a{
