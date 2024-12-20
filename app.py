@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, session
+from flask import Flask, render_template, redirect, session, request
+import funcs
 
 app = Flask(__name__)
 app.secret_key = "lieufhqlerguhöqerughöqerough"
@@ -24,6 +25,34 @@ def start():
 def register():
     return render_template("logreg.html", action="r")
 
+@app.route("/register/process", methods=["POST"])
+def register_processing():
+    nick = request.form["nick"]
+    pw = request.form["pw"]
+
+    out = funcs.register(nick, pw)
+
+    if out[0] == True:
+        session["logged_in"] = True
+        session["nick"] = nick
+        return redirect("/play")
+    else:
+        return render_template("logreg.html", action="r", msg=out[1])
+
+@app.route("/login/process", methods=["POST"])
+def login_processing():
+    nick = request.form["nick"]
+    pw = request.form["pw"]
+
+    out = funcs.login(nick, pw)
+
+    if out[0] == True:
+        session["logged_in"] = True
+        session["nick"] = nick
+        return redirect("/play")
+    else:
+        return render_template("logreg.html", action="l", msg=out[1])
+
 @app.route("/login")
 def login():
     return render_template("logreg.html", action="l")
@@ -31,6 +60,11 @@ def login():
 @app.route("/play")
 def play():
     return render_template("index.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True, port=4900)
