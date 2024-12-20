@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Caesar+Dressing&display=swap');
+
+body, html{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--bg2);
+}
+
+:root{
+    --ffam: 'Caesar Dressing';
+    --bg: #000;
+    --bg2: #333;
+    --bg3: #171717;
+    --fg: #beaf8d;
+    --optbarw: 15vw;
+    --neg-optbar-w: -15vw;
+}
+
+*{
+    font-family: var(--ffam);
+    color: var(--fg);
+    transition: 200ms;
+    user-select: none;
+}
+
+/* logreg form */
+
+.logreg-form{
+    width: 25vw;
+    /* background-color: red; */
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+}
+
+.logreg-form form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5vh;
+}
+
+.logreg-form form input, .logreg-form form button{
+    width: 50%;
+    box-sizing: border-box;
+    padding: 1.5vh 2vh;
+    border: none;
+    outline: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.logreg-form form input{
+    border: 2px solid var(--fg);
+    background-color: transparent;
+    color: var(--fg);
+}
+
+.logreg-form form button{
+    background-color: var(--fg);
+    color: var(--bg2);
+    font-size: 1.5rem;
+}
+
+.logreg-form form button:hover{
+    filter: brightness(1.1);
+}
+
+.logreg-form a{
+    font-size: 1rem;
+    margin-top: 3vh;
+    text-decoration: none;
+}
+
+/* logreg title box */
+
+.title-box{
+    position: absolute;
+    transform: translate(-50%, -0%);
+    inset: 15% auto auto 50%;
+    /* background-color: blue; */
+    width: 35vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.title-box .title{
+    font-size: 8rem;
+}

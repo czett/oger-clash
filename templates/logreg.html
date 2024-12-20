@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if action == "r" %}
+<div class="title-box">
+    <div class="title">OGER CLASH</div>
+    <div class="subtitle">"Baue, kämpfe und herrsche in einem chaotischen Ogerreich!"</div>
+</div>
+<div class="logreg-form">
+    <form action="/register/process" method="post" enctype="multipart/form-data">
+        <input type="text" placeholder="nickname" name="nick">
+        <input type="password" placeholder="password" id="pw1" name="pw" onkeyup="checkPW()">
+        <input type="password" placeholder="password" id="pw2" onkeyup="checkPW()">
+        <button type="submit">registrieren</button>
+        <a href="/login"><div class="switch-logreg">ich möchte mich einloggen</div></a>
+    </form>
+</div>
+{% else %}
+<div class="title-box">
+    <div class="title">OGER CLASH</div>
+    <div class="subtitle">Willkommen zurück, ab in das Reich!</div>
+</div>
+<div class="logreg-form">
+    <form action="/register/process" method="post" enctype="multipart/form-data">
+        <input type="text" placeholder="nickname" name="nick">
+        <input type="password" placeholder="password" id="pw1" name="pw">
+        <button type="submit">einloggen</button>
+        <a href="/register"><div class="switch-logreg">ich möchte mich registrieren</div></a>
+    </form>
+</div>
+{% endif %}
+
+{% endblock %}
