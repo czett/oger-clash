@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, session, request
+from flask import Flask, render_template, redirect, session, request, jsonify
 import funcs
 
 app = Flask(__name__)
@@ -35,6 +35,7 @@ def register_processing():
     if out[0] == True:
         session["logged_in"] = True
         session["nick"] = nick
+        session["cart"] = []
         return redirect("/play")
     else:
         return render_template("logreg.html", action="r", msg=out[1])
@@ -49,6 +50,7 @@ def login_processing():
     if out[0] == True:
         session["logged_in"] = True
         session["nick"] = nick
+        session["cart"] = []
         return redirect("/play")
     else:
         return render_template("logreg.html", action="l", msg=out[1])
@@ -65,14 +67,46 @@ def play():
     products = funcs.get_products()
 
     nick = session["nick"]
+    session["products"] = products
 
-    data = {"nick": nick, "products": products}
+    data = {"nick": nick, "products": session["products"]}
     return render_template("index.html", data=data)
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
+
+@app.route("/api/to_cart/<name>/<price>")
+def to_cart(name, price):
+    product = {"name": name, "price": price}
+    cart = session["cart"]
+    cart.append(product)
+    session["cart"] = cart
+    session.update()
+
+    # doesnt quite work yet, but prob useful :(
+    # ps = session["products"]
+    # for cat in ps:
+    #     if product in cat[1]:
+    #         ps[cat].remove(product)
+
+    # session["products"] = ps
+    # session.update()
+
+    print(session["cart"])
+    return jsonify(session["cart"])
+
+@app.route("/api/clear_cart")
+def clear_cart():
+    session["cart"] = []
+    session.update()
+
+    return jsonify(session["cart"])
+
+@app.route("/api/get_cart")
+def get_cart():
+    return jsonify(session["cart"])
 
 if __name__ == "__main__":
     app.run(debug=True, port=4900)

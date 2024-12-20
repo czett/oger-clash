@@ -246,6 +246,13 @@ button{
     opacity: 0;
 }
 
+.cart .clear-cart{
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 2vh;
+}
+
 /* canvas */
 
 .canvas{

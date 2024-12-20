@@ -28,34 +28,3 @@ function toggleShop(){
         shop.style.transform = "translateX(0%)";
     }
 }
-
-function toggleCart(){
-    const cart = document.querySelector(".cart");
-    const buy = document.querySelector(".buy");
-    const sl = document.querySelector(".shop-list");
-    const st = document.querySelector(".shop-title");
-    const checkout = document.querySelector(".checkout");
-    
-    if (cart.dataset.visible == "false"){
-        cart.dataset.visible = "true";
-        cart.style.opacity = "1";
-        buy.style.visibility = "visible";
-        buy.style.opacity = "1";
-        cart.style.visibility = "visible";
-        sl.style.transform = "translateY(-150%)";
-        checkout.style.inset = "auto auto 80% 50%";
-        checkout.innerHTML = "Weiter Shoppen";
-        st.innerHTML = "Warenkorb";
-    }else{
-        buy.style.opacity = "0";
-        buy.style.visibility = "hidden";
-        cart.style.opacity = "0";
-        cart.style.visibility = "hidden";
-        console.log("hewwo")
-        cart.dataset.visible = "false";
-        sl.style.transform = "translateY(0%)";
-        checkout.style.inset = "auto auto 0% 50%";
-        checkout.innerHTML = "Zur Kasse";
-        st.innerHTML = "Shop";
-    }
-}

@@ -19,7 +19,7 @@
                 </div>
                 <div class="offers">
                     {% for offer in cat[1] %}
-                    <div class="offer">
+                    <div class="offer" data-name="{{offer['name']}}" data-price="{{offer['price']}}" onmousedown="toCart(this)">
                         <div class="name">{{offer["name"]}}</div>
                         <div class="price">{{offer["price"]}} <span class="material-symbols-rounded">diamond</span></div>
                     </div>
@@ -29,13 +29,8 @@
         </div>
 
         <div class="cart" data-visible="false">
+            <div class="clear-cart" onmousedown="clearCart()">warenkorb leeren</div>
             <div class="products">
-                {% for offer in data["products"][0][1] %}
-                <div class="product">
-                    <div class="name">{{offer["name"]}}</div>
-                    <div class="price">{{offer["price"]}} <span class="material-symbols-rounded">diamond</span></div>
-                </div>
-                {% endfor %}
             </div>
         </div>
 
