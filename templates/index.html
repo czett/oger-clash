@@ -9,27 +9,30 @@
         <div class="title">Shop</div>
 
         <div class="shop-list">
-            <div class="banner">
-                <div class="section-title">Angebote</div>
-                <div class="icon">
-                    <span class="material-symbols-rounded">percent</span>
+            {% for cat in data["products"] %}
+                <div class="banner">
+                    {% set split_name = cat[0].split("|") %}
+                    <div class="section-title">{{ split_name[0] }}</div>
+                    <div class="icon">
+                        <span class="material-symbols-rounded">{{ split_name[1] }}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="offers">
-                {% for i in range(5) %}
-                <div class="offer">
-                    <div class="name">Kaktushund</div>
-                    <div class="price">200 <span class="material-symbols-rounded">diamond</span></div>
+                <div class="offers">
+                    {% for offer in cat[1] %}
+                    <div class="offer">
+                        <div class="name">{{offer["name"]}}</div>
+                        <div class="price">{{offer["price"]}} <span class="material-symbols-rounded">diamond</span></div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
 
         <button class="checkout">Zur Kasse</button>
     </div>
     <div class="canvas">
         <div class="top-info">
-            <div class="nick">nickname here</div>
+            <div class="nick">{{data["nick"]}}</div>
             <div class="diamonds">100 <span class="material-symbols-rounded">diamond</span></div>
         </div>
     </div>

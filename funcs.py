@@ -1,6 +1,7 @@
 import bcrypt
 import psycopg2
 from datetime import datetime
+import json, random
 
 with open("credentials.yml", "r") as creds:
     pw = creds.readlines()[0]
@@ -52,4 +53,18 @@ def login(username: str, password: str):
     finally:
         conn.close()
 
-get_db_connection()
+def get_products():
+    with open("gameplay/shop/offers/products.json", "r") as file:
+        cats = json.load(file)["categories"]
+
+    products = []
+
+    for cat in cats:
+        lc = len(cats[cat])
+        if lc > 3:
+            for i in range(lc - 3):
+                cats[cat].pop(random.randint(-1 + len(cats[cat])))
+
+        products.append([cat, cats[cat]])
+
+    return products

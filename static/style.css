@@ -184,7 +184,7 @@ button{
     box-sizing: border-box;
     border-radius: 1rem;
     position: relative;
-    margin-bottom: 2vh;
+    margin: 2vh 0;
 }
 
 .shop .banner *{
@@ -197,7 +197,7 @@ button{
 
 .shop .banner .icon{
     position: absolute;
-    inset: auto 0% 0% auto;
+    inset: auto 0.5vh 0.5vh auto;
 }
 
 .shop .banner .icon span{

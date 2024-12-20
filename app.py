@@ -59,7 +59,15 @@ def login():
 
 @app.route("/play")
 def play():
-    return render_template("index.html")
+    if not check_login_status():
+        return redirect("/register")
+    
+    products = funcs.get_products()
+
+    nick = session["nick"]
+
+    data = {"nick": nick, "products": products}
+    return render_template("index.html", data=data)
 
 @app.route("/logout")
 def logout():

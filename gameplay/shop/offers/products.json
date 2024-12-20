@@ -1,0 +1,26 @@
+{
+    "categories": {
+        "Helfer|medical_services": [
+            {
+                "name": "Kaktushund",
+                "price": 200
+            },
+            {
+                "name": "Lemur",
+                "price": 650
+            }
+        ],
+        "Krieger|bomb": [
+            {
+                "name": "Oger",
+                "price": 1500
+            }
+        ],
+        "Buch|menu_book": [
+            {
+                "name": "Buch des Schutzes",
+                "price": 10000
+            }
+        ]
+    }
+}
