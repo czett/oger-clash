@@ -6,6 +6,26 @@
         <div class="opener">
             <span class="material-symbols-rounded" onmousedown="toggleShop()">storefront</span>
         </div>
+        <div class="title">Shop</div>
+
+        <div class="shop-list">
+            <div class="banner">
+                <div class="section-title">Angebote</div>
+                <div class="icon">
+                    <span class="material-symbols-rounded">percent</span>
+                </div>
+            </div>
+            <div class="offers">
+                {% for i in range(5) %}
+                <div class="offer">
+                    <div class="name">Kaktushund</div>
+                    <div class="price">200 <span class="material-symbols-rounded">diamond</span></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button class="checkout">Zur Kasse</button>
     </div>
     <div class="canvas">
         <div class="top-info">
