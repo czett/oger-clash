@@ -15,3 +15,16 @@ function checkPW(){
         btn.disabled = false;
     }
 }
+
+function toggleShop(){
+    const shop = document.querySelector(".shop");
+    
+    if (shop.dataset.visible == "true"){
+        shop.dataset.visible = "false";
+        shop.style.transform = "translateX(-100%)";
+    }else{
+        console.log("hewwo")
+        shop.dataset.visible = "true";
+        shop.style.transform = "translateX(0%)";
+    }
+}
