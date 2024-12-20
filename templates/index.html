@@ -6,7 +6,7 @@
         <div class="opener">
             <span class="material-symbols-rounded" onmousedown="toggleShop()">storefront</span>
         </div>
-        <div class="title">Shop</div>
+        <div class="shop-title">Shop</div>
 
         <div class="shop-list">
             {% for cat in data["products"] %}
@@ -28,7 +28,19 @@
             {% endfor %}
         </div>
 
-        <button class="checkout">Zur Kasse</button>
+        <div class="cart" data-visible="false">
+            <div class="products">
+                {% for offer in data["products"][0][1] %}
+                <div class="product">
+                    <div class="name">{{offer["name"]}}</div>
+                    <div class="price">{{offer["price"]}} <span class="material-symbols-rounded">diamond</span></div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <button class="checkout" onmousedown="toggleCart()">Zur Kasse</button>
+        <button class="buy" onmousedown="buyCart()">Kaufen</button>
     </div>
     <div class="canvas">
         <div class="top-info">

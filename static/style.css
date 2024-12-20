@@ -162,12 +162,14 @@ button{
     font-size: 2vw;
 }
 
-.shop .title{
+.shop-title{
     font-size: 3rem;
     margin-bottom: 5vh;
+    background-color: var(--bg2);
+    z-index: 11;
 }
 
-.shop .checkout{
+.shop .checkout, .shop .buy{
     width: calc(100% - 4vw);
     aspect-ratio: 7;
     font-size: 1.75rem;
@@ -204,14 +206,14 @@ button{
     font-size: 3rem;
 }
 
-.shop .offers{
+.shop .offers, .cart .products{
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 0;
 }
 
-.shop .offers .offer{
+.shop .offers .offer, .cart .product{
     background-color: var(--bg2);
     display: flex;
     flex-direction: row !important;
@@ -222,8 +224,26 @@ button{
     cursor: pointer;
 }
 
-.shop .offers .offer:hover{
+.shop .offers .offer:hover, .cart .products .product:hover{
     filter: brightness(1.1);
+}
+
+.cart, .checkout, .shop-list{
+    transition: 350ms;
+}
+
+.cart{
+    position: absolute;
+    width: calc(100% - 4vw);
+    inset: 20vh 50% auto auto;
+    transform: translate(50%, -0%);
+    visibility: hidden;
+    opacity: 0;
+}
+
+.shop .buy{
+    visibility: hidden;
+    opacity: 0;
 }
 
 /* canvas */
@@ -250,7 +270,7 @@ button{
     border-radius: 0 0 0 1rem;
 }
 
-.canvas .top-info div, .shop .offers .offer div{
+.canvas .top-info div, .shop .offers .offer div, .cart .products .product div{
     display: flex;
     justify-content: start;
     gap: 1vh;
