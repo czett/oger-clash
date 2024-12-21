@@ -51,6 +51,12 @@ def login_processing():
         session["logged_in"] = True
         session["nick"] = nick
         session["cart"] = []
+
+        # remove
+        uid = funcs.get_user_id_by_nick(session["nick"])
+        funcs.clear_inventory(uid)
+        funcs.add_diamonds_to_user(uid, 1000)
+
         return redirect("/play")
     else:
         return render_template("logreg.html", action="l", msg=out[1])
@@ -67,9 +73,10 @@ def play():
     products = funcs.get_products()
 
     nick = session["nick"]
+    uid = funcs.get_user_id_by_nick(session["nick"])
     session["products"] = products
 
-    data = {"nick": nick, "products": session["products"]}
+    data = {"nick": nick, "products": session["products"], "diamonds": funcs.get_diamonds_for_user(uid)}
     return render_template("index.html", data=data)
 
 @app.route("/logout")
@@ -107,6 +114,31 @@ def clear_cart():
 @app.route("/api/get_cart")
 def get_cart():
     return jsonify(session["cart"])
+
+@app.route("/api/buy_cart")
+def buy_cart():
+    uid = funcs.get_user_id_by_nick(session["nick"])
+    total_price = sum(int(item["price"]) for item in session.get("cart", []))
+    user_diamonds = funcs.get_diamonds_for_user(uid)
+
+    if user_diamonds >= total_price:
+        funcs.subtract_diamonds_from_user(uid, total_price)
+        updated_diamonds = funcs.get_diamonds_for_user(uid)
+
+        for item in session.get("cart", []):
+            iid = funcs.get_item_id_by_name(item["name"])
+            if iid:
+                funcs.add_item_to_inventory(uid, iid, 1)
+
+        session["cart"] = []
+        return redirect("/api/clear_cart")
+    else:
+        return jsonify({"error": "Nicht genügend Diamanten!"}), 400
+
+@app.route("/api/get_diamonds")
+def get_dias():
+    uid = funcs.get_user_id_by_nick(session["nick"])
+    return str(funcs.get_diamonds_for_user(uid))
 
 if __name__ == "__main__":
     app.run(debug=True, port=4900)

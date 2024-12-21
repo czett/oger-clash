@@ -71,3 +71,21 @@ function clearCart(){
             `).join('');
     });
 }
+
+function buyCart() {
+    fetch('/api/buy_cart')
+        .then(res => res.json())
+        .then(list => {
+            document.querySelector('.cart .products').innerHTML = list.map(offer => `
+            <div class="product">
+                <div class="name">${offer.name}</div>
+                <div class="price">${offer.price} <span class="material-symbols-rounded">diamond</span></div>
+            </div>
+            `).join('');
+        })
+        .then(() => fetch('/api/get_diamonds'))
+        .then(res => res.json())
+        .then(diamonds => {
+            document.querySelector('.diacount').textContent = diamonds;
+        });
+}

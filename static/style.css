@@ -139,6 +139,8 @@ button{
     background-color: var(--bg2);
     transform: translateX(0%);
     z-index: 10;
+    /* transition-timing-function: ease-in; */
+    transition: 400ms ease-in;
 }
 
 .shop-list{

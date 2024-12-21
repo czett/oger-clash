@@ -1,6 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<audio id="music" nocontrols loop>
+    <source src="{{url_for('static', filename='gameplay/assets/music/soundtrack.mp3')}}" type="audio/mpeg">
+</audio>
+
+<script>
+    const music = document.getElementById("music");
+    const enableMusic = () => {
+        music.play().catch(console.warn);
+        document.removeEventListener("click", enableMusic);
+        document.removeEventListener("keydown", enableMusic);
+    };
+    document.addEventListener("click", enableMusic);
+    document.addEventListener("keydown", enableMusic);
+</script>
+
+<!-- content -->
+
 <div class="frame">
     <div class="shop" data-visible="true">
         <div class="opener">
@@ -40,7 +58,7 @@
     <div class="canvas">
         <div class="top-info">
             <div class="nick">{{data["nick"]}}</div>
-            <div class="diamonds">100 <span class="material-symbols-rounded">diamond</span></div>
+            <div class="diamonds"><span class="diacount">{{data["diamonds"]}}</span> <span class="material-symbols-rounded">diamond</span></div>
         </div>
     </div>
 </div>
