@@ -14,9 +14,13 @@ DB_CONFIG = {
     "port": 5432,
 }
 
+
+# Helper: Database Connection
 def get_db_connection():
     return psycopg.connect(**DB_CONFIG)
 
+
+# User Management
 def register(username: str, password: str):
     hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
     conn = get_db_connection()
@@ -28,7 +32,7 @@ def register(username: str, password: str):
                     INSERT INTO users (username, password, created_at)
                     VALUES (%s, %s, %s) RETURNING id
                     """,
-                    (username, hashed_password.decode(), datetime.now())
+                    (username, hashed_password.decode(), datetime.now()),
                 )
                 user_id = cur.fetchone()[0]
 
@@ -37,9 +41,8 @@ def register(username: str, password: str):
                     INSERT INTO user_inventory (user_id, item_id, quantity)
                     SELECT %s, id, 0 FROM items
                     """,
-                    (user_id,)
+                    (user_id,),
                 )
-
         return True, "Success"
     except psycopg.errors.UniqueViolation:
         return False, "Username already exists"
@@ -47,6 +50,7 @@ def register(username: str, password: str):
         return False, f"Error: {e}"
     finally:
         conn.close()
+
 
 def login(username: str, password: str):
     conn = get_db_connection()
@@ -63,62 +67,85 @@ def login(username: str, password: str):
     finally:
         conn.close()
 
-def insert_category_if_not_exists(category_name: str):
+
+def get_user_id_by_nick(nick: str):
     conn = get_db_connection()
     try:
         with conn:
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                    SELECT id FROM categories
-                    WHERE name = %s
+                    SELECT id FROM users
+                    WHERE username = %s
                     """,
-                    (category_name,)
+                    (nick,),
                 )
-                existing_category = cur.fetchone()
-
-                if not existing_category:
-                    cur.execute(
-                        """
-                        INSERT INTO categories (name)
-                        VALUES (%s)
-                        """,
-                        (category_name,)
-                    )
-        return True
+                user_id = cur.fetchone()
+                return user_id[0] if user_id else None
     except Exception as e:
-        return False, f"Error: {e}"
+        return None, f"Error: {e}"
     finally:
         conn.close()
 
-def insert_product_if_not_exists(name: str, price: int, category_name: str):
-    insert_category_if_not_exists(category_name)
+
+# Inventory Management
+def add_item_to_inventory(user_id: int, item_id: int, quantity: int):
     conn = get_db_connection()
     try:
         with conn:
             with conn.cursor() as cur:
                 cur.execute(
                     """
-                    SELECT id FROM items
-                    WHERE name = %s AND price = %s
+                    SELECT quantity FROM user_inventory
+                    WHERE user_id = %s AND item_id = %s
                     """,
-                    (name, price)
+                    (user_id, item_id),
                 )
-                existing_product = cur.fetchone()
+                existing_quantity = cur.fetchone()
 
-                if not existing_product:
+                if existing_quantity:
+                    new_quantity = existing_quantity[0] + quantity
                     cur.execute(
                         """
-                        INSERT INTO items (name, price, category_id)
-                        SELECT %s, %s, c.id FROM categories c WHERE c.name = %s
+                        UPDATE user_inventory
+                        SET quantity = %s
+                        WHERE user_id = %s AND item_id = %s
                         """,
-                        (name, price, category_name)
+                        (new_quantity, user_id, item_id),
                     )
-        return True
+                else:
+                    cur.execute(
+                        """
+                        INSERT INTO user_inventory (user_id, item_id, quantity)
+                        VALUES (%s, %s, %s)
+                        """,
+                        (user_id, item_id, quantity),
+                    )
+        return True, "Item added successfully"
     except Exception as e:
         return False, f"Error: {e}"
     finally:
         conn.close()
+
+
+def remove_item_from_inventory(user_id: int, item_id: int):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    DELETE FROM user_inventory
+                    WHERE user_id = %s AND item_id = %s
+                    """,
+                    (user_id, item_id),
+                )
+        return True, "Item removed successfully"
+    except Exception as e:
+        return False, f"Error: {e}"
+    finally:
+        conn.close()
+
 
 def get_inventory(user_id: int):
     conn = get_db_connection()
@@ -132,17 +159,160 @@ def get_inventory(user_id: int):
                     JOIN items i ON ui.item_id = i.id
                     WHERE ui.user_id = %s
                     """,
-                    (user_id,)
+                    (user_id,),
                 )
                 inventory = cur.fetchall()
-                inventory_list = [{"name": item[0], "quantity": item[1], "price": item[2]} for item in inventory]
-
+                inventory_list = [
+                    {"name": item[0], "quantity": item[1], "price": item[2]}
+                    for item in inventory
+                ]
         return True, inventory_list
     except Exception as e:
         return False, f"Error: {e}"
     finally:
         conn.close()
 
-# Other functions like `add_item_to_inventory`, `remove_item_from_inventory`, etc.
-# can be similarly refactored by replacing psycopg2-specific code with psycopg.
 
+# Product Management
+def insert_category_if_not_exists(category_name: str):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT id FROM categories
+                    WHERE name = %s
+                    """,
+                    (category_name,),
+                )
+                existing_category = cur.fetchone()
+
+                if not existing_category:
+                    cur.execute(
+                        """
+                        INSERT INTO categories (name)
+                        VALUES (%s)
+                        """,
+                        (category_name,),
+                    )
+        return True
+    except Exception as e:
+        return False, f"Error: {e}"
+    finally:
+        conn.close()
+
+
+def insert_product_if_not_exists(name: str, price: int, category_name: str):
+    insert_category_if_not_exists(category_name)
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT id FROM items
+                    WHERE name = %s AND price = %s
+                    """,
+                    (name, price),
+                )
+                existing_product = cur.fetchone()
+
+                if not existing_product:
+                    cur.execute(
+                        """
+                        INSERT INTO items (name, price, category_id)
+                        SELECT %s, %s, c.id FROM categories c WHERE c.name = %s
+                        """,
+                        (name, price, category_name),
+                    )
+        return True
+    except Exception as e:
+        return False, f"Error: {e}"
+    finally:
+        conn.close()
+
+
+def get_products():
+    with open("static/gameplay/shop/offers/products.json", "r") as file:
+        cats = json.load(file)["categories"]
+
+    products = []
+
+    for cat in cats:
+        lc = len(cats[cat])
+        if lc > 3:
+            for _ in range(lc - 3):
+                cats[cat].pop(random.randint(-1 + len(cats[cat])))
+
+        for product in cats[cat]:
+            name = product["name"]
+            price = product["price"]
+            insert_product_if_not_exists(name, price, cat)
+
+        products.append([cat, cats[cat]])
+
+    return products
+
+
+# Currency Management
+def add_diamonds_to_user(user_id, amount):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    UPDATE users
+                    SET diamonds = diamonds + %s
+                    WHERE id = %s
+                    """,
+                    (amount, user_id),
+                )
+        return True
+    except Exception as e:
+        return False, f"Error: {e}"
+    finally:
+        conn.close()
+
+
+def subtract_diamonds_from_user(user_id: int, amount: int):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    UPDATE users
+                    SET diamonds = diamonds - %s
+                    WHERE id = %s AND diamonds >= %s
+                    """,
+                    (amount, user_id, amount),
+                )
+                if cur.rowcount == 0:
+                    raise ValueError("Not enough diamonds")
+        return True
+    except Exception as e:
+        return False, f"Error: {e}"
+    finally:
+        conn.close()
+
+
+def get_diamonds_for_user(user_id):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT diamonds FROM users
+                    WHERE id = %s
+                    """,
+                    (user_id,),
+                )
+                diamonds = cur.fetchone()
+                return diamonds[0] if diamonds else 0
+    except Exception as e:
+        return 0, f"Error: {e}"
+    finally:
+        conn.close()

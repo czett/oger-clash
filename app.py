@@ -56,7 +56,7 @@ def login_processing():
 
         # remove
         uid = funcs.get_user_id_by_nick(session["nick"])
-        funcs.clear_inventory(uid)
+        #funcs.clear_inventory(uid)
         funcs.add_diamonds_to_user(uid, 1000)
 
         return redirect("/play")
