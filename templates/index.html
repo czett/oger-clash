@@ -20,7 +20,7 @@
 <!-- content -->
 
 <div class="frame">
-    <div class="shop" data-visible="true">
+    <div class="shop" data-visible="false">
         <div class="opener">
             <span class="material-symbols-rounded" onmousedown="toggleShop()">storefront</span>
         </div>
@@ -59,6 +59,29 @@
         <div class="top-info">
             <div class="nick">{{data["nick"]}}</div>
             <div class="diamonds"><span class="diacount">{{data["diamonds"]}}</span> <span class="material-symbols-rounded">diamond</span></div>
+        </div>
+
+        <img src="{{url_for('static', filename='gameplay/assets/img/map_bw.png')}}" class="map-bg">
+
+        <div class="map">
+            <div class="area">
+                <div class="button">
+                    <div class="area-icon">
+                        <span class="material-symbols-rounded">stadia_controller</span>
+                    </div>
+                </div>
+                <div class="area-name">Sumpfdorf</div>
+            </div>
+            {% for i in range(12)%}
+            <div class="area locked">
+                <div class="button">
+                    <div class="area-icon">
+                        <span class="material-symbols-rounded">lock</span>
+                    </div>
+                </div>
+                <div class="area-name">Schlammtal</div>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

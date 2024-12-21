@@ -38,6 +38,11 @@ def register_processing():
         session["logged_in"] = True
         session["nick"] = nick
         session["cart"] = []
+        uid = funcs.get_user_id_by_nick(session["nick"])
+        session["uid"] = uid
+
+        products = funcs.get_products()
+        session["products"] = products
         return redirect("/play")
     else:
         return render_template("logreg.html", action="r", msg=out[1])
@@ -56,8 +61,12 @@ def login_processing():
 
         # remove
         uid = funcs.get_user_id_by_nick(session["nick"])
+        session["uid"] = uid
         #funcs.clear_inventory(uid)
         funcs.add_diamonds_to_user(uid, 1000)
+
+        products = funcs.get_products()
+        session["products"] = products
 
         return redirect("/play")
     else:
@@ -72,13 +81,12 @@ def play():
     if not check_login_status():
         return redirect("/register")
     
-    products = funcs.get_products()
+    #products = funcs.get_products()
 
     nick = session["nick"]
-    uid = funcs.get_user_id_by_nick(session["nick"])
-    session["products"] = products
+    #session["products"] = products
 
-    data = {"nick": nick, "products": session["products"], "diamonds": funcs.get_diamonds_for_user(uid)}
+    data = {"nick": nick, "products": session["products"], "diamonds": funcs.get_diamonds_for_user(session["uid"])}
     return render_template("index.html", data=data)
 
 @app.route("/logout")

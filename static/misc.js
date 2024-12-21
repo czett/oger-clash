@@ -28,3 +28,10 @@ function toggleShop(){
         shop.style.transform = "translateX(0%)";
     }
 }
+
+document.querySelector('.map').addEventListener('wheel', function(e) {
+    if (e.deltaY !== 0) {
+        this.scrollLeft += e.deltaY;
+        e.preventDefault();
+    }
+});
