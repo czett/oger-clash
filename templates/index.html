@@ -56,9 +56,18 @@
         <button class="buy" onmousedown="buyCart()">Kaufen</button>
     </div>
     <div class="canvas">
+        <div class="title-box">
+            <div class="title">Oger Map</div>
+            <!-- <div class="subtitle">"Baue, kämpfe und herrsche in einem chaotischen Ogerreich!"</div> -->
+        </div>
+
         <div class="top-info">
             <div class="nick">{{data["nick"]}}</div>
             <div class="diamonds"><span class="diacount">{{data["diamonds"]}}</span> <span class="material-symbols-rounded">diamond</span></div>
+        </div>
+        <div class="bottom-info">
+            <img src="{{url_for('static', filename='gameplay/assets/gif/music.gif')}}" alt="">
+            <div class="song-name">Medieval tavern ambient - DeusLower</div>
         </div>
 
         <img src="{{url_for('static', filename='gameplay/assets/img/map_bw.png')}}" class="map-bg">
