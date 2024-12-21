@@ -25,6 +25,8 @@ def start():
 def register():
     return render_template("logreg.html", action="r")
 
+#test
+
 @app.route("/register/process", methods=["POST"])
 def register_processing():
     nick = request.form["nick"]
