@@ -26,6 +26,6 @@
 - **Strategisches Gameplay**: Balance zwischen Ressourcenmanagement, Kämpfen und Dorfaufbau.  
 - **Humorvolle Einheiten**: Rekrutiere Kämpfer wie den „Furzkrieger“ oder den „Schlammhexer“.  
 - **Booster mit Zauberbüchern**: Mächtige temporäre Effekte wie „Kaktuskraft“ oder „Schlammschutzschild“.  
-- **PvE- und PvP-Modi**: Spiele gegen die KI oder fordere andere Spieler heraus.  
+- **PvP-Modus**: Spiele gegen andere Spieler.  
 
 Viel Spaß beim Spielen von **Oger Clash**! 🐾  
