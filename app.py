@@ -17,7 +17,7 @@ def check_login_status():
 @app.route("/")
 def start():
     if not check_login_status():
-        return redirect("/register")
+        return redirect("/login")
     
     return redirect("/play")
 
