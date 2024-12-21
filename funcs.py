@@ -248,6 +248,7 @@ def get_products():
         for product in cats[cat]:
             name = product["name"]
             price = product["price"]
+            product["price"] = product["price"] * random.uniform(0.9, 1.1)
             insert_product_if_not_exists(name, price, cat)
 
         products.append([cat, cats[cat]])

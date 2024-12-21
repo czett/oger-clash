@@ -39,7 +39,7 @@
                     {% for offer in cat[1] %}
                     <div class="offer" data-name="{{offer['name']}}" data-price="{{offer['price']}}" onmousedown="toCart(this)">
                         <div class="name">{{offer["name"]}}</div>
-                        <div class="price">{{offer["price"]}} <span class="material-symbols-rounded">diamond</span></div>
+                        <div class="price">{{offer["price"]|int}} <span class="material-symbols-rounded">diamond</span></div>
                     </div>
                     {% endfor %}
                 </div>
