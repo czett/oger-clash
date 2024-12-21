@@ -24,7 +24,7 @@ def start():
 @app.route("/register")
 def register():
     return render_template("logreg.html", action="r")
-
+#penis
 @app.route("/register/process", methods=["POST"])
 def register_processing():
     nick = request.form["nick"]
