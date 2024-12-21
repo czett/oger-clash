@@ -14,11 +14,9 @@ DB_CONFIG = {
     "port": 5432,
 }
 
-
 # Helper: Database Connection
 def get_db_connection():
     return psycopg.connect(**DB_CONFIG)
-
 
 # User Management
 def register(username: str, password: str):
@@ -51,7 +49,6 @@ def register(username: str, password: str):
     finally:
         conn.close()
 
-
 def login(username: str, password: str):
     conn = get_db_connection()
     try:
@@ -66,7 +63,6 @@ def login(username: str, password: str):
         return False, f"Error: {e}"
     finally:
         conn.close()
-
 
 def get_user_id_by_nick(nick: str):
     conn = get_db_connection()
@@ -86,7 +82,6 @@ def get_user_id_by_nick(nick: str):
         return None, f"Error: {e}"
     finally:
         conn.close()
-
 
 # Inventory Management
 def add_item_to_inventory(user_id: int, item_id: int, quantity: int):
@@ -127,7 +122,6 @@ def add_item_to_inventory(user_id: int, item_id: int, quantity: int):
     finally:
         conn.close()
 
-
 def remove_item_from_inventory(user_id: int, item_id: int):
     conn = get_db_connection()
     try:
@@ -145,7 +139,6 @@ def remove_item_from_inventory(user_id: int, item_id: int):
         return False, f"Error: {e}"
     finally:
         conn.close()
-
 
 def get_inventory(user_id: int):
     conn = get_db_connection()
@@ -171,7 +164,6 @@ def get_inventory(user_id: int):
         return False, f"Error: {e}"
     finally:
         conn.close()
-
 
 # Product Management
 def insert_category_if_not_exists(category_name: str):
@@ -202,7 +194,6 @@ def insert_category_if_not_exists(category_name: str):
     finally:
         conn.close()
 
-
 def insert_product_if_not_exists(name: str, price: int, category_name: str):
     insert_category_if_not_exists(category_name)
     conn = get_db_connection()
@@ -232,7 +223,6 @@ def insert_product_if_not_exists(name: str, price: int, category_name: str):
     finally:
         conn.close()
 
-
 def get_products():
     with open("static/gameplay/shop/offers/products.json", "r") as file:
         cats = json.load(file)["categories"]
@@ -248,13 +238,12 @@ def get_products():
         for product in cats[cat]:
             name = product["name"]
             price = product["price"]
-            product["price"] = product["price"] * random.uniform(0.9, 1.1)
+            product["price"] = int(product["price"] * random.uniform(0.9, 1.1))
             insert_product_if_not_exists(name, price, cat)
 
         products.append([cat, cats[cat]])
 
     return products
-
 
 # Currency Management
 def add_diamonds_to_user(user_id, amount):
@@ -275,7 +264,6 @@ def add_diamonds_to_user(user_id, amount):
         return False, f"Error: {e}"
     finally:
         conn.close()
-
 
 def subtract_diamonds_from_user(user_id: int, amount: int):
     conn = get_db_connection()
@@ -298,7 +286,6 @@ def subtract_diamonds_from_user(user_id: int, amount: int):
     finally:
         conn.close()
 
-
 def get_diamonds_for_user(user_id):
     conn = get_db_connection()
     try:
@@ -315,5 +302,44 @@ def get_diamonds_for_user(user_id):
                 return diamonds[0] if diamonds else 0
     except Exception as e:
         return 0, f"Error: {e}"
+    finally:
+        conn.close()
+
+def get_item_id_by_name(name: str):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                # Search for the item_id by item name
+                cur.execute(
+                    """
+                    SELECT id FROM items
+                    WHERE name = %s
+                    """,
+                    (name,),
+                )
+                item_id = cur.fetchone()
+                return item_id[0] if item_id else None  # Return the item ID or None if not found
+    except Exception as e:
+        return None, f"Error: {e}"
+    finally:
+        conn.close()
+
+def clear_inventory(user_id: int):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                # Remove all items from the user's inventory
+                cur.execute(
+                    """
+                    DELETE FROM user_inventory
+                    WHERE user_id = %s
+                    """,
+                    (user_id,),
+                )
+        return True, "Inventory cleared successfully"
+    except Exception as e:
+        return False, f"Error: {e}"
     finally:
         conn.close()
