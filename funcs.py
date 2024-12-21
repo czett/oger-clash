@@ -1,5 +1,5 @@
 import bcrypt
-import psycopg2
+import psycopg
 from datetime import datetime
 import json, random
 
@@ -15,7 +15,7 @@ DB_CONFIG = {
 }
 
 def get_db_connection():
-    return psycopg2.connect(**DB_CONFIG)
+    return psycopg.connect(**DB_CONFIG)
 
 def register(username: str, password: str):
     hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
@@ -38,7 +38,7 @@ def register(username: str, password: str):
                 """, (user_id,))
 
         return True, "Success"
-    except psycopg2.errors.UniqueViolation:
+    except psycopg.errors.UniqueViolation:
         return False, "Username already exists"
     except Exception as e:
         return False, f"Error: {e}"
