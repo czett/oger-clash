@@ -11,7 +11,7 @@
    - Investiere in Ressourcenproduktion und verteidige dein Dorf gegen Angreifer.  
 
 2. **Stelle deine Kämpfer auf**  
-   - Rekrutiere mächtige **Helden** aus der Welt der Oger, wie Kaktushund-Ritter, Pilzmagier und Schlammberserker.  
+   - Rekrutiere mächtige **Krieger** aus der Welt der Oger, wie Kaktushund-Ritter, Pilzmagier und Schlammberserker.  
    - Nutze clevere Strategien, um in Kämpfen Vorteile zu erlangen.  
 
 3. **Erobere und plündere**  
