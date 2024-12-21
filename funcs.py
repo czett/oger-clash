@@ -403,3 +403,9 @@ def clear_inventory(user_id: int):
         return False, f"Error: {e}"
     finally:
         conn.close()
+
+def get_map():
+    with open("static/gameplay/map/areas/areas.json", "r") as file:
+        raw = json.load(file)
+
+    return raw
