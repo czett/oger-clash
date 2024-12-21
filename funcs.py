@@ -305,6 +305,66 @@ def get_diamonds_for_user(user_id):
     finally:
         conn.close()
 
+# XP Management
+def add_xp_to_user(user_id, amount):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    UPDATE users
+                    SET xp = xp + %s
+                    WHERE id = %s
+                    """,
+                    (amount, user_id),
+                )
+        return True
+    except Exception as e:
+        return False, f"Error: {e}"
+    finally:
+        conn.close()
+
+def subtract_xp_from_user(user_id: int, amount: int):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    UPDATE users
+                    SET xp = xp - %s
+                    WHERE id = %s AND xp >= %s
+                    """,
+                    (amount, user_id, amount),
+                )
+                if cur.rowcount == 0:
+                    raise ValueError("Not enough xp")
+        return True
+    except Exception as e:
+        return False, f"Error: {e}"
+    finally:
+        conn.close()
+
+def get_xp_for_user(user_id):
+    conn = get_db_connection()
+    try:
+        with conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT xp FROM users
+                    WHERE id = %s
+                    """,
+                    (user_id,),
+                )
+                xp = cur.fetchone()
+                return xp[0] if xp else 0
+    except Exception as e:
+        return 0, f"Error: {e}"
+    finally:
+        conn.close()
+
 def get_item_id_by_name(name: str):
     conn = get_db_connection()
     try:
