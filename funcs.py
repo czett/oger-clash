@@ -405,7 +405,7 @@ def clear_inventory(user_id: int):
         conn.close()
 
 def get_map():
-    with open("static/gameplay/map/areas/areas.json", "r") as file:
+    with open("static/gameplay/map/areas/areas.json", "r", encoding="utf-8") as file:
         raw = json.load(file)
 
     return raw

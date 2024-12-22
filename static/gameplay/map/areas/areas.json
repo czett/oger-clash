@@ -1,43 +1,102 @@
 [
-    {
-      "id": 1,
-      "name": "Ogerdorf",
-      "minimum_xp": 0
-    },
-    {
-      "id": 2,
-      "name": "Pilzfeld",
-      "minimum_xp": 500
-    },
-    {
-      "id": 3,
-      "name": "Sumpfgebiet",
-      "minimum_xp": 1500
-    },
-    {
-      "id": 4,
-      "name": "Schlammwald",
-      "minimum_xp": 3000
-    },
-    {
-      "id": 5,
-      "name": "Feuerberge",
-      "minimum_xp": 5000
-    },
-    {
-      "id": 6,
-      "name": "Eisgebirge",
-      "minimum_xp": 7500
-    },
-    {
-      "id": 7,
-      "name": "Handelsstadt",
-      "minimum_xp": 10000
-    },
-    {
-      "id": 8,
-      "name": "Ogerfestung",
-      "minimum_xp": 15000
-    }
-  ]
-  
+  {
+    "id": 1,
+    "name": "Ogerdorf",
+    "minimum_xp": 0
+  },
+  {
+    "id": 2,
+    "name": "Pilzfeld",
+    "minimum_xp": 500
+  },
+  {
+    "id": 3,
+    "name": "Sumpfgebiet",
+    "minimum_xp": 1500
+  },
+  {
+    "id": 4,
+    "name": "Schlammwald",
+    "minimum_xp": 3000
+  },
+  {
+    "id": 5,
+    "name": "Feuerberge",
+    "minimum_xp": 5000
+  },
+  {
+    "id": 6,
+    "name": "Eisgebirge",
+    "minimum_xp": 7500
+  },
+  {
+    "id": 7,
+    "name": "Handelsstadt",
+    "minimum_xp": 10000
+  },
+  {
+    "id": 8,
+    "name": "Ogerfestung",
+    "minimum_xp": 15000
+  },
+  {
+    "id": 9,
+    "name": "Schattenhöhle",
+    "minimum_xp": 20000
+  },
+  {
+    "id": 10,
+    "name": "Knochensumpf",
+    "minimum_xp": 25000
+  },
+  {
+    "id": 11,
+    "name": "Kristallwald",
+    "minimum_xp": 30000
+  },
+  {
+    "id": 12,
+    "name": "Donnerplateau",
+    "minimum_xp": 40000
+  },
+  {
+    "id": 13,
+    "name": "Lavagrube",
+    "minimum_xp": 50000
+  },
+  {
+    "id": 14,
+    "name": "Windklippen",
+    "minimum_xp": 65000
+  },
+  {
+    "id": 15,
+    "name": "Drachenschlucht",
+    "minimum_xp": 80000
+  },
+  {
+    "id": 16,
+    "name": "Schattenhall",
+    "minimum_xp": 100000
+  },
+  {
+    "id": 17,
+    "name": "Ogerpalast",
+    "minimum_xp": 125000
+  },
+  {
+    "id": 18,
+    "name": "Endlose Tiefen",
+    "minimum_xp": 150000
+  },
+  {
+    "id": 19,
+    "name": "Sturmburg",
+    "minimum_xp": 175000
+  },
+  {
+    "id": 20,
+    "name": "Schicksalsgipfel",
+    "minimum_xp": 200000
+  }
+]
