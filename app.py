@@ -43,6 +43,8 @@ def register_processing():
 
         products = funcs.get_products()
         session["products"] = products
+        session["xp"] = funcs.get_xp_for_user(uid)
+
         return redirect("/play")
     else:
         return render_template("logreg.html", action="r", msg=out[1])
@@ -67,7 +69,8 @@ def login_processing():
 
         products = funcs.get_products()
         session["products"] = products
-
+        session["xp"] = funcs.get_xp_for_user(uid)
+        
         return redirect("/play")
     else:
         return render_template("logreg.html", action="l", msg=out[1])
@@ -82,11 +85,12 @@ def play():
         return redirect("/register")
     
     #products = funcs.get_products()
+    areas = funcs.get_map()
 
     nick = session["nick"]
     #session["products"] = products
 
-    data = {"nick": nick, "products": session["products"], "diamonds": funcs.get_diamonds_for_user(session["uid"])}
+    data = {"nick": nick, "products": session["products"], "map": areas, "xp": session["xp"], "diamonds": funcs.get_diamonds_for_user(session["uid"])}
     return render_template("index.html", data=data)
 
 @app.route("/logout")

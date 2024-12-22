@@ -64,6 +64,7 @@
         <div class="top-info">
             <div class="nick">{{data["nick"]}}</div>
             <div class="diamonds"><span class="diacount">{{data["diamonds"]}}</span> <span class="material-symbols-rounded">diamond</span></div>
+            <div class="nick">{{data["xp"]}} XP</div>
         </div>
         <div class="bottom-info">
             <img src="{{url_for('static', filename='gameplay/assets/gif/music.gif')}}" alt="">
@@ -73,23 +74,36 @@
         <img src="{{url_for('static', filename='gameplay/assets/img/map_bw.png')}}" class="map-bg">
 
         <div class="map">
-            <div class="area">
+            <!-- <div class="area">
                 <div class="button">
                     <div class="area-icon">
                         <span class="material-symbols-rounded">stadia_controller</span>
                     </div>
                 </div>
                 <div class="area-name">Sumpfdorf</div>
-            </div>
-            {% for i in range(12)%}
-            <div class="area locked">
-                <div class="button">
-                    <div class="area-icon">
-                        <span class="material-symbols-rounded">lock</span>
+            </div> -->
+            {% for area in data["map"] %}
+                {% if data["xp"] < area["minimum_xp"] %}
+                    <div class="area locked">
+                        <div class="button">
+                            <div class="area-icon">
+                                <span class="material-symbols-rounded">lock</span>
+                            </div>
+                        </div>
+                        <div class="area-name">{{area["name"]}}</div>
+                        <div class="area-xp">{{area["minimum_xp"]}} XP</div>
                     </div>
-                </div>
-                <div class="area-name">Schlammtal</div>
-            </div>
+                {% else %}
+                    <div class="area">
+                        <div class="button">
+                            <div class="area-icon">
+                                <span class="material-symbols-rounded">stadia_controller</span>
+                            </div>
+                        </div>
+                        <div class="area-name">{{area["name"]}}</div>
+                        <div class="area-xp">{{area["minimum_xp"]}} XP</div>
+                    </div>
+                {% endif%}
             {% endfor %}
         </div>
     </div>

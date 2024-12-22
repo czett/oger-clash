@@ -355,6 +355,11 @@ button{
     font-size: 2rem;
 }
 
+.map .area .area-xp{
+    text-align: center;
+    font-size: 1rem;
+}
+
 .map .area.locked .button{
     border: 0.25vw solid var(--fg);
     background: var(--bg2);
