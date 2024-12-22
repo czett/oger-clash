@@ -282,6 +282,7 @@ button{
     gap: .5vh;
     border-radius: 0 0 0 1rem;
     background: var(--bg2);
+    z-index: 10;
 }
 
 .canvas .bottom-info{
